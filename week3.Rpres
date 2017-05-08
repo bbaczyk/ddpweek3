@@ -3,14 +3,15 @@ Developing Data Products - Week 3
 author: Brian M. Baczyk
 date: 8-May-2017
 
-Employemnt Change
+Employment Change
 ========================================================
 
 ```{r echo=FALSE}
 setwd("~/DDP/week3")
 dfEmpHist<-read.csv("ADP_RER_History_2017_01.csv")
 library(plotly)
-dfEmpHist$hover<-with(dfEmpHist, paste(State, '<br>', "Emplyment Change", PctChange))
+dfEmpHist$hover<-with(dfEmpHist, paste(State, '<br>', "Employment Change", PctChange))
+l <- list(color = toRGB("white"), width = 2)
 mapOptions <- list(
      scope = 'usa',
      projection = list(type = 'albers usa'),
@@ -19,12 +20,12 @@ mapOptions <- list(
  )
 pltEmpChange <- plot_geo(dfEmpHist, locationmode = 'USA-states') %>%
   add_trace(
-    z = ~PctChange, text = ~hover, locations = ~ISO_Code,
-    color = ~PctChange, colors = 'Purples'
+    z = ~as.double(PctChange), text=~hover, locations = ~ISO_Code,
+    color = ~as.double(PctChange), colors = 'Blues'
   ) %>%
   colorbar(title = "Percent") %>%
   layout(
-    title = 'January 2017 ADP Employment Change in Key States<br>(Hover for breakdown)',
+    title = 'January 2017 ADP Employment Change in Key States<br>8-May-2017<br>(Hover for breakdown)',
     geo = mapOptions
   )
 pltEmpChange
